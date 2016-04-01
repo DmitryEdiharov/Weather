@@ -1,0 +1,172 @@
+﻿<Window x:Class="Weather.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Weather"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="414" Width="525">
+    <Window.Resources>
+        <Style TargetType="Image" x:Key="sun">
+            <Setter Property="Source" Value="ясно.png"></Setter>
+        </Style>
+        <Style TargetType="Image" x:Key="sun_cloud">
+            <Setter Property="Source" Value="ясно80.png"></Setter>
+        </Style>
+        <Style TargetType="Image" x:Key="cloudless">
+            <Setter Property="Source" Value="облачно(30).png"></Setter>
+        </Style>
+        <Style TargetType="Image" x:Key="cloud">
+            <Setter Property="Source" Value="облачно.png"></Setter>
+        </Style>
+        <Style TargetType="Image" x:Key="rain">
+            <Setter Property="Source" Value="дождь.png"></Setter>
+        </Style>
+        <Style TargetType="Image" x:Key="storm">
+            <Setter Property="Source" Value="гроза.png"></Setter>
+        </Style>
+        <Style TargetType="Image" x:Key="rainsun">
+            <Setter Property="Source" Value="дождь с прояснением.png"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="208*"></ColumnDefinition>
+            <ColumnDefinition Width="309*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.15*"></RowDefinition>
+            <RowDefinition Height="0.85*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+
+        <TextBlock Text="{Binding Mode=OneWay, ElementName=searchBox, Path=Text}" FontFamily="Sans-serif" FontSize="16" Foreground="Blue" Grid.Column="0" Grid.Row="0"></TextBlock>
+
+        <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Name="middleTemp" HorizontalAlignment="Center" Height="30" Width="150"></TextBlock>
+            <Image Name="weatherImg" Height="150" Width="150" />
+        </StackPanel>
+        
+        
+        <StackPanel Orientation="Horizontal"  Grid.Column="1" Grid.Row="0">
+            <ComboBox Height="20" Width="200" Margin="15,15" Name="searchBox" IsEditable="True" StaysOpenOnEdit="True"></ComboBox>
+            <Button  Name="Search" Width="50" Height="20" Click="Button_Click">Search</Button>
+        </StackPanel>
+        <TabControl Grid.Column="1" Grid.Row="1">
+            <TabItem Header="Сегодня">
+                <TabItem.Content>
+                    <StackPanel  Height="Auto">
+                        <WrapPanel HorizontalAlignment="Center">
+                            <TextBlock Width="100" Text="Погода на">
+                            </TextBlock>
+                            <TextBlock Width="Auto" MinWidth="100" Text="Value" Name="dateTextBox" ></TextBlock>
+                        </WrapPanel>
+                        <StackPanel Margin="0 20">
+                            <TextBlock Height="20" Text="Погодные явления:" HorizontalAlignment="Center"></TextBlock>
+                            <WrapPanel HorizontalAlignment="Center">
+                                <TextBlock Width="100" Text="Облачность">
+                                </TextBlock>
+                                <TextBlock Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Value" Name="cloudTextBox"></TextBlock>
+                            </WrapPanel>
+                            <WrapPanel HorizontalAlignment="Center">
+                                <TextBlock Width="100" Text="Осадки">
+                                </TextBlock>
+                                <TextBlock Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Value" Name="precipitationTextBox"></TextBlock>
+                            </WrapPanel>
+                        </StackPanel>
+                        <WrapPanel HorizontalAlignment="Center">
+                            <TextBlock Width="100" Text="Давление (рт.ст.)">
+                            </TextBlock>
+                            <TextBlock Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Мин: Макс" Name="pressureTextBox" TextAlignment="Center"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center">
+                            <TextBlock Width="100" Text="Температура (по Цельсию)">
+                            </TextBlock>
+                            <TextBlock TextAlignment="Center" Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Мин: Макс:" Name="temperatureTextBox"></TextBlock>
+                        </WrapPanel>
+                        <StackPanel Margin="0,20">
+                            <TextBlock Height="20" Text="Ветер:" HorizontalAlignment="Center"></TextBlock>
+                            <WrapPanel HorizontalAlignment="Center">
+                                <TextBlock Width="100" Text="Сила ветра (м/с)">
+                                </TextBlock>
+                                <TextBlock TextAlignment="Center" Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Value" Name="windTextBox"></TextBlock>
+                            </WrapPanel>
+                            <WrapPanel HorizontalAlignment="Center">
+                                <TextBlock Width="100" Text="Направление">
+                                </TextBlock>
+                                <TextBlock TextAlignment="Center" Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Value" Name="wind_directionTextBox"></TextBlock>
+                            </WrapPanel>
+                        </StackPanel>
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,20">
+                            <TextBlock Width="100" Text="Влажность">
+                            </TextBlock>
+                            <TextBlock TextAlignment="Center" Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Мин: Макс:" Name="relwetTextBox"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center">
+                            <TextBlock Width="100" Text="Влажность">
+                            </TextBlock>
+                            <TextBlock TextAlignment="Center" Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Мин: Макс:" Name="heatTextBox"></TextBlock>
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+            <TabItem Header="Завтра">
+                <TabItem.Content>
+                    <StackPanel  Height="Auto">
+                        <WrapPanel HorizontalAlignment="Center">
+                            <TextBlock Width="100" Text="Погода на">
+                            </TextBlock>
+                            <TextBlock Width="Auto" MinWidth="100" Text="Value" Name="tomorrow_dateTextBox" ></TextBlock>
+                        </WrapPanel>
+                        <StackPanel Margin="0 20">
+                            <TextBlock Height="20" Text="Погодные явления:" HorizontalAlignment="Center"></TextBlock>
+                            <WrapPanel HorizontalAlignment="Center">
+                                <TextBlock Width="100" Text="Облачность">
+                                </TextBlock>
+                                <TextBlock Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Value" Name="tomorrow_cloudTextBox"></TextBlock>
+                            </WrapPanel>
+                            <WrapPanel HorizontalAlignment="Center">
+                                <TextBlock Width="100" Text="Осадки">
+                                </TextBlock>
+                                <TextBlock Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Value" Name="tomorrow_precipitationTextBox"></TextBlock>
+                            </WrapPanel>
+                        </StackPanel>
+                        <WrapPanel HorizontalAlignment="Center">
+                            <TextBlock Width="100" Text="Давление">
+                            </TextBlock>
+                            <TextBlock Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Мин: Макс" Name="tomorrow_pressureTextBox" TextAlignment="Center"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center">
+                            <TextBlock Width="100" Text="Температура">
+                            </TextBlock>
+                            <TextBlock TextAlignment="Center" Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Мин: Макс:" Name="tomorrow_temperatureTextBox"></TextBlock>
+                        </WrapPanel>
+                        <StackPanel Margin="0,20">
+                            <TextBlock Height="20" Text="Ветер:" HorizontalAlignment="Center"></TextBlock>
+                            <WrapPanel HorizontalAlignment="Center">
+                                <TextBlock Width="100" Text="Сила ветра">
+                                </TextBlock>
+                                <TextBlock TextAlignment="Center" Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Value" Name="tomorrow_windTextBox"></TextBlock>
+                            </WrapPanel>
+                            <WrapPanel HorizontalAlignment="Center">
+                                <TextBlock Width="100" Text="Направление">
+                                </TextBlock>
+                                <TextBlock TextAlignment="Center" Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Value" Name="tomorrow_wind_directionTextBox"></TextBlock>
+                            </WrapPanel>
+                        </StackPanel>
+                        <WrapPanel HorizontalAlignment="Center" Margin="0,20">
+                            <TextBlock Width="100" Text="Влажность">
+                            </TextBlock>
+                            <TextBlock TextAlignment="Center" Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Мин: Макс:" Name="tomorrow_relwetTextBox"></TextBlock>
+                        </WrapPanel>
+                        <WrapPanel HorizontalAlignment="Center">
+                            <TextBlock Width="100" Text="Влажность">
+                            </TextBlock>
+                            <TextBlock TextAlignment="Center" Width="{Binding ElementName=dateTextBox, Path=Width}" MinWidth="100" Text="Мин: Макс:" Name="tomorrow_heatTextBox"></TextBlock>
+                        </WrapPanel>
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+        </TabControl>        
+    </Grid>
+</Window>
